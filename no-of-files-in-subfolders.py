@@ -10,5 +10,5 @@ for subfolder in subfolders:
     subfolder_path = os.path.join(folder_path, subfolder)
     num_files = len([filename for filename in os.listdir(subfolder_path) if os.path.isfile(os.path.join(subfolder_path, filename))])
     print(f"Subfolder: {subfolder}, Number of Files: {num_files}")
-    total += 1
+    total += num_files
 print(total)
