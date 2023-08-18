@@ -5,7 +5,7 @@ from skimage import io
 
 # Set the path to your main "train" folder
 main_folder = "./UNIFIED/train"
-n_samples_per_folder = 5  # Change this to the desired number of samples per folder
+n_samples_per_folder = 3000  # Change this to the desired number of samples per folder
 
 # Initialize image augmenter with desired augmentation techniques
 augmenter = iaa.Sequential([
@@ -25,17 +25,18 @@ def augment_images_in_subfolder(subfolder_path):
         return
     
     for i in range(required_augmentations):
-        image_file = image_files[i % existing_images]
-        image_path = os.path.join(subfolder_path, image_file)
-        image = io.imread(image_path)
+        if existing_images > 0:
+            image_file = image_files[i % existing_images]
+            image_path = os.path.join(subfolder_path, image_file)
+            image = io.imread(image_path)
 
-        # Perform augmentation
-        augmented_image = augmenter.augment_image(image)
+            # Perform augmentation
+            augmented_image = augmenter.augment_image(image)
 
-        # Save augmented image
-        augmented_image_filename = f"augmented_{i + existing_images}_{image_file}"
-        augmented_image_path = os.path.join(subfolder_path, augmented_image_filename)
-        io.imsave(augmented_image_path, augmented_image)
+            # Save augmented image
+            augmented_image_filename = f"AUG_ARI_{i + existing_images}_{image_file}"
+            augmented_image_path = os.path.join(subfolder_path, augmented_image_filename)
+            io.imsave(augmented_image_path, augmented_image)
 
 # Iterate through subfolders and augment images
 for root, dirs, files in os.walk(main_folder):
